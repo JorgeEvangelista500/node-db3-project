@@ -123,24 +123,24 @@ async function findById(scheme_id) {
   */
 
 
-function findSteps(scheme_id) { 
+async function findSteps(scheme_id) { 
 
     
-  const results = db('schemes as sc')
+  const results =await db('schemes as sc')
       .leftJoin('steps as st', 'sc.scheme_id', 'st.scheme_id')
       .select('step_id', 'step_number', 'instructions', 'scheme_name')
       .where('sc.scheme_id', scheme_id)
       .orderBy('st.step_number')
 
-      return results
-}
-  //     if(results[0].step_id == null){
-  //         return [];
-  //     } else {
-  //         return results;
-  //   }
-  // }
+     console.log(results)
+      if(results[0].step_id == null){
+          return [];
+      } else {
 
+          return results;
+    }
+  
+  }
       
   // EXERCISE C
   /*
@@ -182,7 +182,7 @@ function addStep(scheme_id, step) {
      return db('steps')
       .insert({ step_number, instructions, scheme_id })
       .then(() => { 
-        return findById(scheme_id)
+        return findSteps(scheme_id)
       })
     }
   // EXERCISE E
